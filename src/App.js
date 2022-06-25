@@ -8,24 +8,22 @@ import { Fielding } from './Fielding';
 
 const App = () => {
 
-    const { parent } = this.props;
+  constructor = (props) => {
+    super(props);
+    this.state = {
+      roster: []
+    }; 
+  };
 
-    constructor(props) {
-        super(props);
-        this.props.parent.state = {
-            roster: []
-        }; 
-    };
+  saveInput = (e) => {
+    this.setState({ input: e.target.value });
+  };
 
-    saveInput = (e) => {
-      this.props.parent.setState({ input: e.target.value });
-    };
-  
-    addNewItem = () => {
-    this.props.parent.setState(prevState => ({
-        roster: [...prevState.roster, prevState.input],
-    }));
-    };
+  addNewItem = () => {
+    this.setState(prevState => {
+      roster: [...prevState.roster, prevState.input]
+    });
+  };
 
   return (
     <div className="App"> 

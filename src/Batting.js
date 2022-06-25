@@ -12,20 +12,13 @@ export class Batting extends React.Component {
 
 	render() {
 		const { parent } = this.props;
-
-        
-
 		return (
 			<div>
 				<h2>Batting</h2>
 				<ol>
-					{parent.state.lineup.map((subItems, sIndex) => {
-                        console.log(subItems);
-                        console.log(sIndex);
+					{parent.state.lineup.map((subItems, sIndex) => { 
 						return (
-							<li onClick={(e) => this.handleClick(e)} key={sIndex}>
-								{subItems}
-							</li>
+							<li onClick={(e) => this.handleClick(e)} key={sIndex}>{subItems}</li>
 						);
 					})}
 				</ol>

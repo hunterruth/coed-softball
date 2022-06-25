@@ -14,7 +14,7 @@ export class Roster extends React.Component {
 	};
 
 	addNewItem = (e, input) => {
-		// if button click - doesn't have input role passed through so must take previous sibling
+		// if button click - doesn't have input role passed through so must take previous
 		if (!input) {
 			input = e.target.previousSibling;
 		}
@@ -47,8 +47,9 @@ export class Roster extends React.Component {
             
             let lineup = [];
 
-            const addMan = (i, m) => {
-
+            const addMan = (i) => {
+                // console.log('add man: ' + m);
+                // console.log('men count:' + men.length);
                 lineup.push(men[m]);
                 m++;
                 if (m == men.length) {
@@ -56,8 +57,9 @@ export class Roster extends React.Component {
                 }
             }
 
-            const addWoman = (i, w) => {
-
+            const addWoman = (i) => {
+                // console.log('add woman: ' + w);
+                // console.log('women count:' + women.length);
                 lineup.push(women[w]);
                 w++;
                 if (w == women.length) {
@@ -70,43 +72,43 @@ export class Roster extends React.Component {
 
                 switch(index) {
                     case 0:
-                    addMan(i, m); 
+                    addMan(m); 
                     break;
 
                     case 1:
-                    addWoman(i, w); 
+                    addWoman(w); 
                     break;
 
                     case 2:
-                    addMan(i, m); 
+                    addMan(m); 
                     break;
 
                     case 3:
-                    addWoman(i, w); 
+                    addWoman(w); 
                     break;
 
                     case 4:
-                    addMan(i, m); 
+                    addMan(m); 
                     break;
 
                     case 5:
-                    addMan(i, m); 
+                    addMan(m); 
                     break;
 
                     case 6:
-                    addWoman(i, w); 
+                    addWoman(w); 
                     break;
 
                     case 7:
-                    addMan(i, m); 
+                    addMan(m); 
                     break;
 
                     case 8:
-                    addWoman(i, w); 
+                    addWoman(w); 
                     break;
 
                     case 9:
-                    addMan(i, m); 
+                    addMan(m); 
                 }
                 index++; 
                 if (index > 9) {

@@ -1,42 +1,161 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 
 export class Roster extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 
-  constructor(props) {
-    super(props);
-    this.input = createRef();
-  }
+	handleReturnKey = (e) => {
+		if (e.code === "Enter") {
+			console.log(e);
+			let input = e.target;
+			this.addNewItem(e, input);
+		}
+	};
 
-  handleReturnKey = (e) => {
-    if (e.keyCode === 13) {
-      this.addNewItem()
+	addNewItem = (e, input) => {
+		// if button click - doesn't have input role passed through so must take previous sibling
+		if (!input) {
+			input = e.target.previousSibling;
+		}
+		const { parent } = this.props;
+		let role = input.dataset.role;
+
+		if (role == "men") {
+			parent.setState({ men: [...parent.state.men, input.value] });
+		} else {
+			parent.setState({ women: [...parent.state.women, input.value] });
+		}
+		input.value = "";
+
+        this.updateRoster();
+	};
+
+    updateRoster = (e) => {
+
+        const { parent } = this.props;
+
+        setTimeout(function(){
+
+            console.log(parent);
+
+            let index = 0,
+                m = 0,
+                w = 0,
+                men = parent.state.men,
+                women = parent.state.women;
+            
+            let lineup = [];
+
+            const addMan = (i, m) => {
+
+                lineup.push(men[m]);
+                m++;
+                if (m == men.length) {
+                    m = 0;
+                }
+            }
+
+            const addWoman = (i, w) => {
+
+                lineup.push(women[w]);
+                w++;
+                if (w == women.length) {
+                    w = 0;
+                }
+                
+            }
+
+            for (var i=0; i < 100; i++){
+
+                switch(index) {
+                    case 0:
+                    addMan(i, m); 
+                    break;
+
+                    case 1:
+                    addWoman(i, w); 
+                    break;
+
+                    case 2:
+                    addMan(i, m); 
+                    break;
+
+                    case 3:
+                    addWoman(i, w); 
+                    break;
+
+                    case 4:
+                    addMan(i, m); 
+                    break;
+
+                    case 5:
+                    addMan(i, m); 
+                    break;
+
+                    case 6:
+                    addWoman(i, w); 
+                    break;
+
+                    case 7:
+                    addMan(i, m); 
+                    break;
+
+                    case 8:
+                    addWoman(i, w); 
+                    break;
+
+                    case 9:
+                    addMan(i, m); 
+                }
+                index++; 
+                if (index > 9) {
+                    index = 0;
+                }
+
+            }
+            // M F M F M M F M F M
+            parent.setState({ lineup: lineup });
+
+        }, 100);
     }
-  }
 
-  addNewItem = () => {
-    const { parent } = this.props;
-    parent.setState({ roster: [ ...parent.state.roster, this.input.current.value ]});
-    this.input.current.value = "";
-  }
-    
-  render() {
-    const { parent } = this.props;
 
-    return (
-      <div>
-        <input
-          type="text"
-          ref={ this.input }
-          onKeyUp={ this.handleReturnKey }
-        />
-        <button onClick={ this.addNewItem }> Add Item </button>
-        <ol>
-          { parent.state.roster.map((subItems, sIndex) => {
-            return <li key={sIndex}> {subItems}</li>
-          }) }
-        </ol>
-      </div>
-    );
-  }
+	render() {
+		const { parent } = this.props;
 
+		return (
+			<div>
+				<h2>Roster</h2>
+				<div>
+					<h3>Men</h3>
+					<input
+						data-role="men"
+						type="text"
+						onKeyUp={(e) => this.handleReturnKey(e)}
+					/>
+					<button onClick={(e) => this.addNewItem(e)}>Add Player</button>
+					<ol>
+						{parent.state.men.map((subItems, sIndex) => {
+							return <li key={sIndex}> {subItems}</li>;
+						})}
+					</ol>
+				</div>
+				<div>
+					<h3>Women</h3>
+					<input
+						data-role="women"
+						type="text"
+						onKeyUp={(e) => this.handleReturnKey(e)}
+					/>
+					<button onClick={(e) => this.addNewItem(e)}>Add Player</button>
+					<ol>
+						{parent.state.women.map((subItems, sIndex) => {
+							return <li key={sIndex}> {subItems}</li>;
+						})}
+					</ol>
+				</div>
+			</div>
+		);
+	}
 }

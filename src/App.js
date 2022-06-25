@@ -6,45 +6,36 @@ import { Roster } from './Roster';
 import { Batting } from './Batting';
 import { Fielding } from './Fielding';
 
-const App = () => {
+export default class App extends React.Component {
 
-  constructor = (props) => {
+  constructor(props) {
     super(props);
     this.state = {
       roster: []
-    }; 
-  };
+    }
+  }
 
-  saveInput = (e) => {
-    this.setState({ input: e.target.value });
-  };
+  render() {
+    return (
+      <div className="App"> 
+        <Tabs>
+          <TabPanel>
+              <Roster parent={this} />
+          </TabPanel>
+          <TabPanel>
+              <Batting />
+          </TabPanel>
+          <TabPanel>
+              <Fielding />
+          </TabPanel>
+          <TabList>
+          <Tab>Roster</Tab>
+          <Tab>Batting</Tab>
+          <Tab>Fielding</Tab>
+          </TabList>
+          </Tabs>
+      </div>
+    );
+  }
 
-  addNewItem = () => {
-    this.setState(prevState => {
-      roster: [...prevState.roster, prevState.input]
-    });
-  };
-
-  return (
-    <div className="App"> 
-      <Tabs>
-        <TabPanel>
-            <Roster parent={this} />
-        </TabPanel>
-        <TabPanel>
-            <Batting />
-        </TabPanel>
-        <TabPanel>
-            <Fielding />
-        </TabPanel>
-        <TabList>
-        <Tab>Roster</Tab>
-        <Tab>Batting</Tab>
-        <Tab>Fielding</Tab>
-        </TabList>
-        </Tabs>
-    </div>
-  );
 }
-
-export default App;

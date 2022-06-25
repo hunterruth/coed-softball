@@ -1,23 +1,42 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { Component, createRef } from "react";
 
 export class Roster extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.input = createRef();
+  }
+
+  handleReturnKey = (e) => {
+    if (e.keyCode === 13) {
+      this.addNewItem()
+    }
+  }
+
+  addNewItem = () => {
+    const { parent } = this.props;
+    parent.setState({ roster: [ ...parent.state.roster, this.input.current.value ]});
+    this.input.current.value = "";
+  }
     
   render() {
     const { parent } = this.props;
+
     return (
       <div>
         <input
           type="text"
-          onChange={parent.saveInput}
+          ref={ this.input }
+          onKeyUp={ this.handleReturnKey }
         />
-        <button onClick={parent.addNewItem}> Add Item </button>
+        <button onClick={ this.addNewItem }> Add Item </button>
         <ol>
-          {parent.state.roster.map((subItems, sIndex) => {
+          { parent.state.roster.map((subItems, sIndex) => {
             return <li key={sIndex}> {subItems}</li>
-          })}
+          }) }
         </ol>
       </div>
     );
   }
-  
+
 }

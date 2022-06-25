@@ -50,7 +50,9 @@ export class Roster extends React.Component {
             const addMan = (i) => {
                 // console.log('add man: ' + m);
                 // console.log('men count:' + men.length);
-                lineup.push(men[m]);
+                let man = { name: men[m], batted: false }
+                
+                lineup.push(man);
                 m++;
                 if (m == men.length) {
                     m = 0;
@@ -60,7 +62,9 @@ export class Roster extends React.Component {
             const addWoman = (i) => {
                 // console.log('add woman: ' + w);
                 // console.log('women count:' + women.length);
-                lineup.push(women[w]);
+                let woman = { name: women[w], batted: false }
+
+                lineup.push(woman);
                 w++;
                 if (w == women.length) {
                     w = 0;

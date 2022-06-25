@@ -5,9 +5,19 @@ export class Batting extends React.Component {
 		super(props);
 	}
 
-    handleClick = (e) => {
+    handleClick = (e, index) => {
+        const { parent } = this.props;
+        let lineup = parent.state.lineup;
+
         console.log('clicked');
+        console.log(index);
+        console.log(e);
         e.target.classList.toggle('complete');
+        
+        lineup[index].batted ? lineup[index].batted = false : lineup[index].batted = true; 
+
+        parent.setState({ lineup: lineup });
+
     }
 
 	render() {
@@ -16,9 +26,10 @@ export class Batting extends React.Component {
 			<div>
 				<h2>Batting</h2>
 				<ol>
-					{parent.state.lineup.map((subItems, sIndex) => { 
+					{parent.state.lineup.map((elem, index) => { 
+                        let player = elem; 
 						return (
-							<li onClick={(e) => this.handleClick(e)} key={sIndex}>{subItems}</li>
+							<li className={`${player.batted ? "complete" : ""}`} key={index} onClick={(e) => this.handleClick(e, index)}>{player.name}</li>
 						);
 					})}
 				</ol>

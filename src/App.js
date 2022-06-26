@@ -1,41 +1,100 @@
-import React, { Component } from "react";
-import "react-tabs/style/react-tabs.css";
-import "./App.css";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import React, { Component, useState } from "react";
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 import { Roster } from "./Roster";
 import { Batting } from "./Batting";
 import { Fielding } from "./Fielding";
 
-export default class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			lineup: [],
-			men: [],
-			women: [],
-		};
-	}
+interface TabPanelProps {
+  children?: React.ReactNode;
+  dir?: string;
+  index: number;
+  value: number;
+}
 
-	render() {
-		return (
-			<div className="App">
-				<Tabs>
-					<TabPanel>
-						<Roster parent={this} />
-					</TabPanel>
-					<TabPanel>
-						<Batting parent={this} />
-					</TabPanel>
-					<TabPanel>
-						<Fielding parent={this} />
-					</TabPanel>
-					<TabList>
-						<Tab>Roster</Tab>
-						<Tab>Batting</Tab>
-						<Tab>Fielding</Tab>
-					</TabList>
-				</Tabs>
-			</div>
-		);
-	}
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  const state = {
+        lineup: [],
+        men: [],
+        women: [],
+  };
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
+
+
+export default function FullWidthTabs() {
+  const theme = useTheme();
+  
+  const [value, setValue, lineup, men, women] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index: number) => {
+    setValue(index);
+  };
+
+  return (
+    <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
+      <AppBar position="static">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="inherit"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Roster" {...a11yProps(0)} />
+          <Tab label="Lineup" {...a11yProps(1)} />
+          <Tab label="Fielding" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+            <Roster parent={state} />
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+            <Batting parent={state} />
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+            <Fielding parent={state} />
+        </TabPanel>
+      </SwipeableViews>
+    </Box>
+  );
 }

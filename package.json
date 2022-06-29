@@ -1,5 +1,6 @@
 {
   "name": "softball",
+  "homepage": "https://hunterruth.github.io/softball",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

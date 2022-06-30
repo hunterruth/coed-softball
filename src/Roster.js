@@ -180,7 +180,7 @@ export function Roster(props) {
 	// render() {
 	return (
 		<Container>
-			<Box sx={{ bgcolor: "background.paper" }}>
+			<Box sx={{ bgcolor: "background.paper", p: 0 }}>
 				<Typography variant="overline" component="h2">
 					Masc
 				</Typography>
@@ -227,7 +227,7 @@ export function Roster(props) {
 					})}
 				</List>
 			</Box>
-			<Box sx={{ bgcolor: "background.paper" }}>
+			<Box sx={{ bgcolor: "background.paper", p: 0 }}>
                 <Typography variant="overline" component="h2" mt={4}>
 					Fem
 				</Typography>

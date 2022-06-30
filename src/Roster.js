@@ -201,7 +201,7 @@ export function Roster(props) {
 						variant="contained"
 						onClick={(e) => addNewItem(e)}
 					>
-						Add Player
+						Add
 					</Button>
 				</Box>
 
@@ -248,7 +248,7 @@ export function Roster(props) {
 						variant="contained"
 						onClick={(e) => addNewItem(e)}
 					>
-						Add Player
+						Add
 					</Button>
 				</Box>
 				<List dense sx={{ textTransform: "capitalize" }}>

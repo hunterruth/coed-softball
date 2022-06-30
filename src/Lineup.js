@@ -10,7 +10,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import { Box } from "@mui/system";
 
-export function Batting(props) {
+export function Lineup(props) {
     
     const parent = props;
 	
@@ -55,9 +55,8 @@ export function Batting(props) {
 								dense
 							>
 								<ListItemText id={labelId} primary={player.name} />
-								<ListItemIcon>
+								<ListItemIcon sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 									<Checkbox
-                                        sx={{ justifyContent: 'flex-end' }}
 										edge="end"
 										checked={parent.checked.indexOf(value) !== -1}
 										tabIndex={-1}

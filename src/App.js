@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from '@mui/material/Toolbar';
@@ -11,7 +10,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
 import { Roster } from "./Roster";
-import { Batting } from "./Batting";
+import { Lineup } from "./Lineup";
 import { Fielding } from "./Fielding";
 import { createTheme } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material/styles";
@@ -131,7 +130,7 @@ export default function FullWidthTabs() {
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1} dir={theme.direction}>
-				<Batting state={state} setState={setState} checked={checked} setChecked={setChecked} />
+				<Lineup state={state} setState={setState} checked={checked} setChecked={setChecked} />
 			</TabPanel>
 			<TabPanel value={value} index={2} dir={theme.direction}>
 				{/* <Fielding parent={state} /> */}

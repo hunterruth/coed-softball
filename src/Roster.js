@@ -179,7 +179,7 @@ export function Roster(props) {
 
 	// render() {
 	return (
-		<Container>
+		<Container sx={{ p: 0 }}>
 			<Box sx={{ bgcolor: "background.paper", p: 0 }}>
 				<Typography variant="overline" component="h2">
 					Masc

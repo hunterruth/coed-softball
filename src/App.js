@@ -1,33 +1,19 @@
 import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from '@mui/material/Toolbar';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { ThemeProvider } from "@mui/material/styles";
-import Container from '@mui/material/Container';
-import AdbIcon from '@mui/icons-material/Adb';
-import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
 import { Roster } from "./Roster";
 import { Lineup } from "./Lineup";
 import { Fielding } from "./Fielding";
 import { createTheme } from "@mui/material/styles";
 import { ThemeOptions } from "@mui/material/styles";
-import { green, yellow } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import {ReactComponent as ReactLogo} from './unathletics.svg';
 
 
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#1b5e20',
-    },
-    secondary: {
-      main: '#fdd835',
-    },
-  },
-};
 
 const theme = createTheme({
     palette: {
@@ -37,6 +23,9 @@ const theme = createTheme({
         },
         secondary: {
           main: '#fdd835',
+        },
+        alert: {
+            main: '#f44336'
         }
     }
 });
@@ -48,6 +37,7 @@ interface TabPanelProps {
 	index: number;
 	value: number;
 }
+
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
@@ -70,23 +60,33 @@ function a11yProps(index: number) {
 		id: `full-width-tab-${index}`,
 		"aria-controls": `full-width-tabpanel-${index}`,
 	};
-}
+} 
 
 export default function FullWidthTabs() {
-	// const theme = useTheme();
 
 	const [value, setValue] = React.useState(0);
 	const [count, setCount] = React.useState(1);
-    const [checked, setChecked] = React.useState([-1]);
+    // const [checked, setChecked] = React.useState([-1]);
 
-	const [
-		state = {
-			lineup: [],
-			men: [],
-			women: [],
-		},
-		setState,
-	] = React.useState();
+	const [state, setState] = React.useState(
+        JSON.parse(localStorage.getItem('state')) || { men: [], women: [], lineup: []}
+    );    
+
+    const [checked, setChecked] = React.useState(
+        JSON.parse(localStorage.getItem('checked')) || [-1]
+    ); 
+
+    console.log(localStorage);
+
+    React.useEffect(() => {
+        localStorage.setItem('state', JSON.stringify(state));
+        
+    }, [state]);
+    
+    React.useEffect(() => {
+        localStorage.setItem('checked', JSON.stringify(checked));
+    }, [checked]);
+
 
 	const handleClick = () => {
 		setCount(count + 1);
@@ -94,10 +94,6 @@ export default function FullWidthTabs() {
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
-	};
-
-	const handleChangeIndex = (index: number) => {
-		setValue(index);
 	};
 
 	return (
@@ -127,13 +123,15 @@ export default function FullWidthTabs() {
 					setState={setState}
 					count={count}
 					handleClick={handleClick}
+                    checked={checked} 
+                    setChecked={setChecked} 
 				/>
 			</TabPanel>
-			<TabPanel value={value} index={1} dir={theme.direction}>
+			<TabPanel value={value} index={1}>
 				<Lineup state={state} setState={setState} checked={checked} setChecked={setChecked} />
 			</TabPanel>
-			<TabPanel value={value} index={2} dir={theme.direction}>
-				{/* <Fielding parent={state} /> */}
+			<TabPanel value={value} index={2}>
+				<Fielding parent={state} />
 			</TabPanel>
 		</Box>
         </ThemeProvider>

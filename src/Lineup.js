@@ -5,8 +5,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
 import Divider from "@mui/material/Divider";
 import { Box } from "@mui/system";
 
@@ -25,14 +23,17 @@ export function Lineup(props) {
 		const newChecked = [...checked];
 
 		if (currentIndex === -1) {
-			newChecked.push(value);
+			// newChecked.push(value);
+            for (let i = 0; i <= value; i++) {
+                newChecked.push(i); 
+            }
+
 		} else {
-			newChecked.splice(currentIndex, 1);
+			newChecked.splice(currentIndex, newChecked.length);
 		}
 
 		parent.setChecked(newChecked);
 	};
-
 	
 
 	console.log("batting props:", props);
@@ -42,8 +43,6 @@ export function Lineup(props) {
 
 			<List sx={{ width: "100%", bgcolor: "background.paper", textTransform: "capitalize" }}>
 				{parent.state.lineup.map((elem, value) => {
-                    console.log(parent.checked.indexOf(value));
-
 					const labelId = `checkbox-list-label-${value}`;
 					const player = elem;
 					return (

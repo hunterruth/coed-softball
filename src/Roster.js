@@ -3,16 +3,27 @@ import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { Box, Typography, Button, Container, FormGroup, TextField, Divider, ListItemIcon, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+    Fab,
+	Box,
+	Typography,
+	Button,
+	Container,
+	FormGroup,
+	TextField,
+	Divider,
+	ListItemIcon,
+	IconButton,
+} from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import AlertDialog from './AlertDialog';
 
 export function Roster(props) {
 	console.log("props: ", props);
-
-
 
 	const parent = props;
 
@@ -57,43 +68,33 @@ export function Roster(props) {
 			}));
 		}
 		input.value = "";
-        
 	};
 
-    const removeItem = (e, index, role) => {
+	const removeItem = (e, index, role) => {
+		if (role == "Men") {
+			console.log("role = men");
 
-
-        if (role == "Men") {
-
-            console.log('role = men');
-
-            console.log(index);
+			console.log(index);
 
 			let newMen = parent.state.men;
-                newMen.splice(index, 1);
+			newMen.splice(index, 1);
 
 			parent.setState((state, props) => ({
 				men: newMen,
 				women: parent.state.women,
-				lineup: parent.state.lineup
+				lineup: parent.state.lineup,
 			}));
-            
 		} else {
 			let newWomen = parent.state.women;
-                newWomen.splice(index, 1);
+			newWomen.splice(index, 1);
 
 			parent.setState((state, props) => ({
 				women: newWomen,
 				men: parent.state.men,
-				lineup: parent.state.lineup
+				lineup: parent.state.lineup,
 			}));
-            
 		}
-
-    
-    }
-
-
+	};
 
 	const updateLineup = (e) => {
 		let index = 0,
@@ -103,7 +104,6 @@ export function Roster(props) {
 			women = parent.state.women;
 
 		const addMan = (i) => {
-
 			let man = { name: parent.state.men[m] };
 			lineup.push(man);
 			m++;
@@ -174,8 +174,35 @@ export function Roster(props) {
 			men: parent.state.men,
 			lineup: lineup,
 		}));
-
 	};
+
+    const fabStyle = {
+        position: 'absolute',
+        bottom: 16,
+        right: 16,
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        console.log('test');
+        setOpen(true);
+      };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleAccept = () => {
+        console.log('accept');
+        parent.setState((state, props) => ({
+            men: [],
+            women: [],
+            lineup: [],
+        }));
+        parent.setChecked([-1]);
+        setOpen(false);
+    };
 
 	// render() {
 	return (
@@ -186,16 +213,17 @@ export function Roster(props) {
 				</Typography>
 				<Box sx={{ display: "flex", borderRadius: 0 }}>
 					<FormControl sx={{ flexGrow: 1 }}>
-                        <TextField
+						<TextField
 							type="text"
 							name="Men"
 							onKeyUp={(e) => handleReturnKey(e)}
 							label="Name"
-                            id="filled-basic" 
-                            variant="filled" />
+							id="filled-basic"
+							variant="filled"
+						/>
 					</FormControl>
 					<Button
-                        disableElevation
+						disableElevation
 						sx={{ borderRadius: 0 }}
 						name="Men"
 						variant="contained"
@@ -208,72 +236,78 @@ export function Roster(props) {
 				<List dense sx={{ textTransform: "capitalize" }}>
 					{parent.state.men.map((subItems, sIndex) => {
 						return (
-                            <Box key={sIndex}> 
-							<ListItem
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" name="Men" onClick={(e)=>removeItem(e, sIndex, 'Men')}>
-                                      <CloseIcon
-                                        edge="start"
-                                        tabIndex={-1}
-                                        />
-                                    </IconButton>
-                                  }
-                                >
-								<ListItemText primary={subItems} />
-							</ListItem>
-                            <Divider />
-                            </Box>
+							<Box key={sIndex}>
+								<ListItem
+									secondaryAction={
+										<IconButton
+											edge="end"
+											aria-label="delete"
+											name="Men"
+											onClick={(e) => removeItem(e, sIndex, "Men")}
+										>
+											<CloseIcon edge="start" tabIndex={-1} />
+										</IconButton>
+									}
+								>
+									<ListItemText primary={subItems} />
+								</ListItem>
+								<Divider />
+							</Box>
 						);
 					})}
 				</List>
 			</Box>
 			<Box sx={{ bgcolor: "background.paper", p: 0 }}>
-                <Typography variant="overline" component="h2" mt={4}>
+				<Typography variant="overline" component="h2" mt={4}>
 					Fem
 				</Typography>
 				<Box sx={{ display: "flex", borderRadius: 0 }}>
 					<FormControl sx={{ flexGrow: 1 }}>
-                        <TextField
+						<TextField
 							type="text"
 							name="Women"
 							onKeyUp={(e) => handleReturnKey(e)}
 							label="Name"
-                            id="filled-basic" 
-                            variant="filled" />
+							id="filled-basic"
+							variant="filled"
+						/>
 					</FormControl>
 					<Button
-                        disableElevation
+						disableElevation
 						sx={{ borderRadius: 0 }}
 						name="Women"
 						variant="contained"
-						onClick={(e) => addNewItem(e)}
-					>
+						onClick={(e) => addNewItem(e)}>
 						Add
 					</Button>
 				</Box>
 				<List dense sx={{ textTransform: "capitalize" }}>
 					{parent.state.women.map((subItems, sIndex) => {
 						return (
-                            <Box key={sIndex}>
-							<ListItem
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete" name="Women" onClick={(e)=>removeItem(e, sIndex, 'Women')}>
-                                      <CloseIcon
-                                        edge="start"
-                                        tabIndex={-1}
-                                        />
-                                    </IconButton>
-                                  }
-                                >
-								<ListItemText primary={subItems} />
-							</ListItem>
-                            <Divider />
-                            </Box>
+							<Box key={sIndex}>
+								<ListItem
+									secondaryAction={
+										<IconButton
+											edge="end"
+											aria-label="delete"
+											name="Women"
+											onClick={(e) => removeItem(e, sIndex, "Women")}>
+											<CloseIcon edge="start" tabIndex={-1} />
+										</IconButton>
+									}>
+									<ListItemText primary={subItems} />
+								</ListItem>
+								<Divider />
+							</Box>
 						);
 					})}
 				</List>
 			</Box>
-		</Container>
+            <AlertDialog open={open} setOpen={setOpen} handleClose={handleClose} handleAccept={handleAccept} />
+            <Fab sx={fabStyle} size="small" color="secondary" aria-label="add" onClick={handleClickOpen}>
+            <DeleteIcon />
+            </Fab>
+		</Container> 
 	);
 	// }
 }

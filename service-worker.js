@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/softball/precache-manifest.cc3a7a30293daa5d94bedbdf5d2d679d.js"
+  "/softball/precache-manifest.bbd4b61b437b180b1c5ae7c225814639.js"
 );
 
 workbox.clientsClaim();
